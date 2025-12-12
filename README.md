@@ -9,7 +9,7 @@
 
 ## 1. Project Overview
 
-This repository hosts the experimental codebase and datasets for the Master's Thesis titled "Mechanistic Interpretability of Safety Refusal Circuits in Large Language Models." This research investigates the causal mechanisms governing safety refusals in instruction-tuned Large Language Models (LLMs). By integrating behavioral statistical analysis with mechanistic reverse-engineering techniques, this project identifies a sparse, format-dependent neural circuit responsible for enforcing safety alignment in Llama-3-8B.
+This repository hosts the experimental codebase and datasets for the Master's Thesis titled "Mechanistic Interpretability of Safety Refusal Circuits in Large Language Models." This research investigates the causal mechanisms governing safety refusals in instruction-tuned Large Language Models (LLMs). By integrating behavioral statistical analysis with mechanistic reverse-engineering techniques, this project identifies a sparse, format-dependent neural circuit responsible for enforcing safety alignment in Llama-3.1-8B.
 
 ### Key Contributions
 * **Behavioral Format Sensitivity:** Establishes via non-parametric statistical testing ($p < 10^{-20}$) that safety refusal is context-dependent, exhibiting robust activation in completion-based formats (Fill-In-The-Blank, Multiple Choice) while failing in analysis-based formats (Question Answering).
