@@ -243,3 +243,61 @@ df_patch.to_csv("thesis_circuit_patching1.csv")
 
 print(" - Saved CSVs.")
 print("\nExecution Complete.")
+
+# ============================================================
+# LAYER-WISE DLA AGGREGATION (Add after saving results)
+# ============================================================
+
+import matplotlib.pyplot as plt
+import seaborn as sns
+import numpy as np
+
+# Aggregate DLA across heads for each layer
+dla_per_layer = dla_map.detach().cpu().numpy().mean(axis=1)  # Shape: (32,)
+
+# Separate positive (refusal) and negative (compliance) contributions
+refusal_dla = np.maximum(dla_per_layer, 0)  # Positive values
+compliance_dla = np.minimum(dla_per_layer, 0)  # Negative values (will be plotted as bars extending downward)
+
+# Create figure
+fig, ax = plt.subplots(figsize=(14, 6))
+
+layers = np.arange(len(dla_per_layer))
+
+# Stacked bar chart: refusal (positive) and compliance (negative)
+ax.bar(layers, refusal_dla, label='Refusal (Positive DLA)', color='#2ecc71', alpha=0.8)
+ax.bar(layers, compliance_dla, label='Compliance (Negative DLA)', color='#e74c3c', alpha=0.8)
+
+# Styling
+ax.axhline(y=0, color='black', linestyle='-', linewidth=0.8)
+ax.set_xlabel('Layer Index', fontsize=12, fontweight='bold')
+ax.set_ylabel('Average DLA Contribution', fontsize=12, fontweight='bold')
+ax.set_title('Layer-wise Direct Logit Attribution (DLA)\nRefusal Circuit Hierarchy in Llama-3.1-8B-Instruct', 
+             fontsize=13, fontweight='bold')
+ax.set_xticks(layers)
+ax.set_xticklabels(layers)
+ax.legend(fontsize=11, loc='upper left')
+ax.grid(axis='y', alpha=0.3, linestyle='--')
+
+# Add shaded regions for functional stages
+ax.axvspan(-0.5, 2.5, alpha=0.1, color='gray', label='Input Encoding (0-2)')
+ax.axvspan(2.5, 5.5, alpha=0.1, color='blue', label='Harm Detection (3-5)')
+ax.axvspan(5.5, 7.5, alpha=0.1, color='orange', label='Refusal Prep (6-7)')
+ax.axvspan(7.5, 8.5, alpha=0.1, color='red', label='Decision Execution (8)')
+
+# Adjust legend to include regions
+handles, labels = ax.get_legend_handles_labels()
+ax.legend(handles[:2], labels[:2], fontsize=11, loc='upper left')
+
+plt.tight_layout()
+plt.savefig('layer_wise_dla_bar.png', dpi=300, bbox_inches='tight')
+print("Saved: layer_wise_dla_bar.png")
+plt.show()
+
+# Print statistics
+print("\nLayer-wise DLA Statistics:")
+print("-" * 50)
+for i, val in enumerate(dla_per_layer):
+    print(f"Layer {i:2d}: {val:7.5f} | {'█' * int(abs(val) * 500)}")
+print("-" * 50)
+print(f"Peak DLA: Layer {np.argmax(np.abs(dla_per_layer))} ({np.max(np.abs(dla_per_layer)):.5f})")
