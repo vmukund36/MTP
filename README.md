@@ -72,24 +72,3 @@ The core dependencies are listed in `requirements.txt`:
 * `matplotlib`
 * `seaborn`
 
----
-
-## 4. Repository Structure
-
-* `main.py`: The primary experimental script. It performs model loading, data synthesis, statistical testing, and circuit discovery (DLA and Patching) in a single execution flow.
-* `requirements.txt`: List of Python libraries required for reproduction.
-* `README.md`: Project documentation.
-* `outputs/`: Directory containing generated data and visualizations.
-    * `thesis_stats_behavioral.csv`: Raw logit difference scores for all samples across formats.
-    * `thesis_circuit_dla.csv`: Attribution scores for all 1024 attention heads.
-    * `thesis_circuit_patching.csv`: Activation patching restoration scores for all 1024 attention heads.
-    * `safety_circuit_analysis.png`: Heatmaps visualizing the identified refusal circuit.
-
----
-
-## 5. Usage
-
-To run the full experimental pipeline, execute the main script:
-
-```bash
-python main.py
