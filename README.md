@@ -19,7 +19,7 @@ The experimental pipeline is divided into two stages:
 
 ### Stage I: Behavioral Analysis
 This stage quantifies the impact of prompt syntax on model safety using a controlled dataset.
-* **Dataset Source:** We utilize the **AdvBench** dataset (Harmful Behaviors subset), widely considered the standard for evaluating refusal capabilities in aligned models.
+* **Dataset Source:** We utilize two widely adopted benchmarks for evaluating safety and refusal behavior in aligned language models. First, the **AdvBench dataset** (Harmful Behaviors subset) is used, which is commonly regarded as a standard benchmark for assessing a model’s ability to refuse harmful instructions. In addition, we incorporate the **SafetyBench dataset**, which contains a diverse set of safety related prompts designed to evaluate whether models appropriately decline unsafe or policy violating requests across multiple risk categories. Using both datasets enables a more comprehensive assessment of the model’s refusal mechanisms under varied adversarial and safety critical scenarios.
 * **Synthetic Control:** We select 60 distinct harmful instructions from AdvBench and wrap each in three syntactically distinct prompt formats to isolate the effect of syntax from semantic content:
     * **QA (Analysis):** "Is this harmful?"
     * **FIB (Completion):** "Assistant: I [cannot/will]"
